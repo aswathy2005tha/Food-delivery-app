@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f7f2">
+    <meta name="description" content="Browse neighborhood restaurants, build your cart, and place a food order.">
+    <title>Gather | Food, brought together</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="food-delivery.css">
+    <script src="food-delivery.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Gather home">
+        <span class="brand-mark" aria-hidden="true">g.</span>
+        <span>gather<span class="brand-period">.</span></span>
+      </a>
+      <div class="delivery-address">
+        <span class="address-label">DELIVERING TO</span>
+        <button class="address-button" type="button" aria-label="Delivery address, 28 Waverly Place">28 Waverly Place <span aria-hidden="true">⌄</span></button>
+      </div>
+      <div class="top-actions">
+        <button class="text-button" id="login-open" type="button">Sign in</button>
+        <button class="cart-toggle" id="cart-toggle" type="button" aria-label="Open shopping bag">
+          <span aria-hidden="true">Bag</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> GOOD FOOD, GOOD MOOD</p>
+          <h1 id="page-title">A little something<br>to <em>look forward to.</em></h1>
+          <p class="intro-note">Your neighborhood favorites, made fresh and on their way.</p>
+        </div>
+        <div class="intro-stamp" aria-label="Freshly made, locally loved">
+          <span>FRESHLY MADE</span><b aria-hidden="true">✳</b><span>LOCALLY LOVED</span>
+        </div>
+      </section>
+
+      <div class="page-layout">
+        <section class="menu-area" aria-label="Browse food">
+          <div class="browse-heading">
+            <div>
+              <p class="eyebrow eyebrow-muted">THE NEIGHBORHOOD TABLE</p>
+              <h2>Find your thing</h2>
+            </div>
+            <p class="open-status"><span></span> 4 kitchens open</p>
+          </div>
+
+          <label class="search-box" for="food-search">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="food-search" type="search" placeholder="Search dishes or kitchens" autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+
+          <div class="filter-block">
+            <div class="filter-label">KITCHENS <span class="filter-rule"></span></div>
+            <div class="chip-row" id="restaurant-filters" role="group" aria-label="Filter by restaurant"></div>
+          </div>
+
+          <div class="filter-block category-block">
+            <div class="filter-label">I'M IN THE MOOD FOR <span class="filter-rule"></span></div>
+            <div class="category-row" id="category-filters" role="group" aria-label="Filter by category"></div>
+          </div>
+
+          <div class="results-heading">
+            <div>
+              <h2>Made for you <span class="result-count" id="result-count"></span></h2>
+              <p>Good things from good people nearby.</p>
+            </div>
+            <label class="sort-control">SORT BY
+              <select id="sort-select" aria-label="Sort menu items">
+                <option value="popular">Popular</option>
+                <option value="price-low">Price: low to high</option>
+                <option value="price-high">Price: high to low</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="food-grid" id="food-grid" aria-live="polite"></div>
+          <div class="empty-state" id="empty-state" hidden>
+            <span aria-hidden="true">( o )</span>
+            <h3>No bites found</h3>
+            <p>Try another dish, kitchen, or category.</p>
+            <button class="text-button" id="clear-filters" type="button">Clear filters</button>
+          </div>
+        </section>
+
+        <aside class="cart-panel" id="cart-panel" aria-label="Your bag">
+          <div class="cart-header">
+            <div>
+              <p class="eyebrow eyebrow-muted">YOUR ORDER</p>
+              <h2>Your bag <span id="cart-title-count">(0)</span></h2>
+            </div>
+            <button class="icon-button cart-close" id="cart-close" type="button" aria-label="Close bag">×</button>
+          </div>
+          <div class="cart-content" id="cart-content"></div>
+          <div class="cart-summary" id="cart-summary" hidden>
+            <div class="summary-line"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+            <div class="summary-line"><span>Delivery</span><span id="delivery-fee">$2.50</span></div>
+            <div class="summary-line summary-total"><span>Total</span><span id="total">$0.00</span></div>
+            <button class="checkout-button" id="checkout-button" type="button">Continue to checkout <span aria-hidden="true">→</span></button>
+            <p class="checkout-note">Taxes calculated at checkout</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="footer"><span>gather<span class="brand-period">.</span></span><span>Good food travels better together.</span><span>Made for the neighborhood</span></footer>
+    <div class="scrim" id="scrim"></div>
+
+    <dialog class="dialog" id="login-dialog" aria-labelledby="login-title">
+      <form class="dialog-form" id="login-form" novalidate>
+        <button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close sign in">×</button>
+        <p class="eyebrow eyebrow-muted">WELCOME TO THE TABLE</p>
+        <h2 id="login-title">Good to have you.</h2>
+        <p class="dialog-description">Sign in to make your next order a little easier.</p>
+        <label class="form-label" for="customer-name">Your name</label>
+        <input class="form-input" id="customer-name" name="name" autocomplete="name" required minlength="2" placeholder="e.g. Alex Morgan">
+        <label class="form-label" for="customer-email">Email address</label>
+        <input class="form-input" id="customer-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        <p class="form-error" id="login-error" role="alert"></p>
+        <button class="checkout-button" type="submit">Continue <span aria-hidden="true">→</span></button>
+        <p class="fine-print">Prototype sign-in only. No account or password is stored.</p>
+      </form>
+    </dialog>
+
+    <dialog class="dialog order-dialog" id="order-dialog" aria-labelledby="order-title">
+      <div class="order-confirmation">
+        <button class="icon-button dialog-close" type="button" data-close-dialog aria-label="Close order confirmation">×</button>
+        <div class="confirmation-mark" aria-hidden="true">✓</div>
+        <p class="eyebrow eyebrow-muted">THAT'S A WRAP</p>
+        <h2 id="order-title">Your order is in.</h2>
+        <p class="dialog-description">The kitchen's got it. We can't wait for you to dig in.</p>
+        <div class="order-id-box"><span>ORDER NUMBER</span><strong id="order-id"></strong></div>
+        <button class="checkout-button" type="button" data-close-dialog>Back to the menu</button>
+      </div>
+    </dialog>
+  </body>
+</html>
